@@ -14,6 +14,8 @@ public class Textura {
     private CargarBufferedImage loader;
     private BufferedImage playerSheet, enemySheet, casillaSheet, bloqueSheet;
     private BufferedImage[] marioPeque, marioGrande, luigiPeque, luigiGrande;
+    private BufferedImage[] koopa_1, koopa_2, koopa_3;
+    private BufferedImage[] tortuga_1, tortuga_2, tortuga_3;
     private BufferedImage[] casilla_1, casilla_2, casilla_3, casilla_4, tubo_1;
     private BufferedImage[] escombros_1;
     
@@ -29,12 +31,20 @@ public class Textura {
         casilla_4 = new BufferedImage[NUMBER_CASILLA_1 + NUMBER_CASILLA_2];
         tubo_1 = new BufferedImage[4];
         escombros_1 = new BufferedImage[4];
+        koopa_1 = new BufferedImage[3];
+        koopa_2 = new BufferedImage[3];
+        koopa_3 = new BufferedImage[3];
                
+        tortuga_1 = new BufferedImage[2];
+        tortuga_2 = new BufferedImage[2];
+        tortuga_3 = new BufferedImage[2];
         loader = new CargarBufferedImage();
         playerSheet = loader.cargarImagen("/res/images/sheets/mario-luigi-sheet.png");
+        enemySheet = loader.cargarImagen("/res/images/sheets/enemy-sheet.png");
         casillaSheet = loader.cargarImagen("/res/images/sheets/tiles-sheet.png");
         bloqueSheet = loader.cargarImagen("/res/images/sheets/blocks-sheet.png");
         getPlayerTextura();
+        getEnemyTextura();
         getCasillaTextura();
         getTuboTextura();
         getEscombroTextura();
@@ -56,6 +66,61 @@ public class Textura {
         
         for(int i=0; i < NUMBER_PLAYER_P_SPRITES; i++){
             marioPeque[i] = playerSheet.getSubimage(xImage + i*(ancho+1), yImage, ancho, alto);
+        }
+    }
+    
+    private void getEnemyTextura(){        
+        int xImage = 0;
+        
+        int yImage = 16;
+        int ancho = 16;
+        int alto = 16;
+        
+        for(int j = 0; j < 2; j++){
+            
+            switch(j){
+                case 0:
+                    for(int i=0; i<3; i++){
+                        koopa_1[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
+                    }
+                    yImage += 2*alto;
+
+                    for(int i=0; i < 3; i++){
+                        koopa_2[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
+                    }
+                    
+                    yImage += 2*alto;
+                    
+                    for(int i=0; i < 3; i++){
+                        koopa_3[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
+                    }                    
+                    break;
+                    
+                case 1:
+                    xImage = 96;
+                    yImage = 9;
+                    alto = 22;
+                    
+                    
+                    for(int i=0; i<2; i++){
+                        tortuga_1[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
+                    }
+                    
+                    yImage += alto+16;
+
+                    for(int i=0; i<2; i++){
+                        tortuga_2[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
+                    }
+                    
+                    yImage += alto+16;
+
+                    for(int i=0; i<2; i++){
+                        tortuga_3[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
+                    }                    
+                    break;
+
+            }
+                        
         }
     }
     
@@ -149,6 +214,30 @@ public class Textura {
     
     public BufferedImage[] getLuigiGrande(){
         return luigiGrande;
+    }
+    
+    public BufferedImage[] getKoopa1(){
+        return koopa_1;
+    }
+    
+    public BufferedImage[] getKoopa2(){
+        return koopa_2;
+    }
+    
+    public BufferedImage[] getKoopa3(){
+        return koopa_3;
+    }
+    
+    public BufferedImage[] getTortuga1(){
+        return tortuga_1;
+    }
+    
+    public BufferedImage[] getTortuga2(){
+        return tortuga_2;
+    }
+    
+    public BufferedImage[] getTortuga3(){
+        return tortuga_3;
     }
     
     public BufferedImage[] getCasilla1(){

@@ -33,11 +33,11 @@ public class Tubo extends Objeto_Juego{
         g.drawImage(sprite[index], (int) getX(), (int) getY(), (int) getAncho()*2, (int) getAlto(), null);
         
         g.setColor(Color.red);
-        g.draw(getBounds());
+        g.draw(getBorde());
     }
 
     @Override
-    public Rectangle getBounds() {
+    public Rectangle getBorde() {
         return new Rectangle((int) getX(), (int) getY(), (int) getAncho()*2, (int) getAlto());
     }
     

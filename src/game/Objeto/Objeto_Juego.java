@@ -30,7 +30,7 @@ public abstract class Objeto_Juego {
    
    public abstract void pos();
    public abstract void mostrar(Graphics2D g);
-   public abstract Rectangle getBounds();
+   public abstract Rectangle getBorde();
    
    public void aplicarGravedad(){
        velocidadY += 0.3f;

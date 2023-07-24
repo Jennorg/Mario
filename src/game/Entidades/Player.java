@@ -163,7 +163,7 @@ public class Player extends Objeto_Juego {
         for(int i = 0; i < objManager.getLista().size(); i++){
             Objeto_Juego temporal = objManager.getLista().get(i);
             if(temporal == this) continue;
-            if(temporal.getId() == Objeto.Bloque && getBordeTop().intersects(temporal.getBounds())){                                
+            if(temporal.getId() == Objeto.Bloque && getBordeTop().intersects(temporal.getBorde())){                                
                 setY(temporal.getY() + temporal.getAlto());
                 setVelocidadY(0);
                 ((Bloque) temporal).golpea();
@@ -172,7 +172,7 @@ public class Player extends Objeto_Juego {
                 
             }   else {    
                 
-                if(getBordeBot().intersects(temporal.getBounds())){                    
+                if(getBordeBot().intersects(temporal.getBorde())){                    
                     setVelocidadY(0);
                     setVelocidadX(0);
                     setY(temporal.getY() - temporal.getAlto()*1.5f);
@@ -185,7 +185,7 @@ public class Player extends Objeto_Juego {
                 }
 
                 
-                if(getBordeIzquierda().intersects(temporal.getBounds())){
+                if(getBordeIzquierda().intersects(temporal.getBorde())){
                     if(temporal.getId() == Objeto.Tubo){
                         setX(temporal.getX() + getAncho()*1.2f); // Establece la posición x del jugador al lado izquierdo del bloque
                         setVelocidadX(0);
@@ -197,12 +197,12 @@ public class Player extends Objeto_Juego {
                     
                 }
                 
-                if(getBordeTop().intersects(temporal.getBounds())){
+                if(getBordeTop().intersects(temporal.getBorde())){
                     setVelocidadY(0);
                     setY(temporal.getY() + temporal.getAlto());
                                        
                 }
-                if(getBordeDerecha().intersects(temporal.getBounds())){
+                if(getBordeDerecha().intersects(temporal.getBorde())){
                     setVelocidadX(0);
                     setX(temporal.getX() - temporal.getAncho()*1.2f);                    
                     
@@ -214,7 +214,7 @@ public class Player extends Objeto_Juego {
     }
 
     @Override
-    public Rectangle getBounds() {
+    public Rectangle getBorde() {
         return new Rectangle((int) (getX() + getAncho()/2 - getAncho()/4),
                             (int) (getY() + getAlto()/2),
                             (int) (getAncho()/2),
