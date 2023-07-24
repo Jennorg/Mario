@@ -41,7 +41,7 @@ public class SuperMario {
         window.setVisible(true);
         
         reproductor.openFile("src/res/audios/background.wav");
-        reproductor.play();
+        //reproductor.play();
         
         game.startGameThread();
       

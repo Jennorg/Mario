@@ -1,5 +1,6 @@
 package game.Entidades;
 
+import game.Graficos.Animacion;
 import game.Graficos.Textura;
 import game.Objeto.Objeto;
 import game.Objeto.Objeto_Juego;
@@ -14,6 +15,7 @@ public class Koopa extends Objeto_Juego {
 
     private int index;
     private BufferedImage[] sprite;
+    private Animacion animacion;
     
     int velocidadX = -5;
     int velocidadY = 0;
@@ -22,12 +24,17 @@ public class Koopa extends Objeto_Juego {
         super(X, Y, ID, ancho, alto, scale);
         this.textura = textura;
         sprite = textura.getKoopa1();
+        animacion = new Animacion(5,sprite[0],sprite[1]);
     }
 
     @Override
     public void pos() {
         setX(getVelocidadX() + getX());
         setY(getVelocidadY() + getY());
+        
+        animacion.anima();
+        aplicarGravedad();
+        //colision();
     }
 
     @Override

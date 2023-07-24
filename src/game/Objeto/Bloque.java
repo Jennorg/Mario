@@ -44,11 +44,11 @@ public class Bloque extends Objeto_Juego{
         
         
         g.setColor(Color.red);
-        g.draw(getBounds());
+        g.draw(getBorde());
     }
 
     @Override
-    public Rectangle getBounds() {
+    public Rectangle getBorde() {
         return new Rectangle((int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
     }
     
