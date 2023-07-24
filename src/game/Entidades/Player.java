@@ -121,7 +121,7 @@ public class Player extends Objeto_Juego {
                setVelocidadY(-8);
                salta = true;     
                accion = Accion.saltando;
-               reproductor.openFile("src/res/audios/jump.wav");
+               //reproductor.openFile("src/res/audios/jump.wav");
                reproductor.play();
                
            }

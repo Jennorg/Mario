@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
         
      // Load the sprite sheet image from the file
     try {
-        URL imageUrl = getClass().getResource("/res/images/backgrounds/01.jpg");
+        URL imageUrl = getClass().getResource("/res/images/backgrounds/background.png");
         backgroundSpriteSheet = ImageIO.read(imageUrl);
     } catch (IOException e) {
         e.printStackTrace();
@@ -125,8 +125,8 @@ public void paintComponent(Graphics g) {
 
     // Draw the background sprite sheet frame
     if (backgroundSpriteSheet != null) {
-        int frameWidth = 1000; // Replace with the actual width of one frame
-        int frameHeight = 800; // Replace with the actual height of one frame
+        int frameWidth = 10000; // Replace with the actual width of one frame
+        int frameHeight = 660; // Replace with the actual height of one frame
 
         // Calculate the scale factors to fit the height of the GamePanel
         double scaleY = (double) altoMaximo / frameHeight;
@@ -137,8 +137,8 @@ public void paintComponent(Graphics g) {
         int scaledHeight = (int) (frameHeight * scaleY);
 
         // Calculate the position to draw the frame on the screen (centered)
-        int drawX = (anchoMaximo - scaledWidth) / 2;
-        int drawY = (altoMaximo - scaledHeight) / 2;
+        int drawX = (anchoMaximo - scaledWidth) / 2 - cam.getX(); // Adjust the X position based on camera position
+        int drawY = (altoMaximo - scaledHeight) / cam.getY(); // Adjust the Y position based on camera position
 
         // Draw the scaled background image to fit the height of the GamePanel
         g2.drawImage(backgroundSpriteSheet, drawX, drawY, drawX + scaledWidth, drawY + scaledHeight,
