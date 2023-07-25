@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
         
         this.multiplayer = multiplayer;
         
-        nivelManager = new NivelManager(objetoManager, controlManager1, controlManager2, textura, reproductor);
+        nivelManager = new NivelManager(objetoManager, controlManager1, controlManager2, textura, reproductor, multiplayer);
         nivelManager.cargar();
         mario = objetoManager.getPlayer(1);
         luigi = objetoManager.getPlayer(2);
@@ -135,10 +135,13 @@ public class GamePanel extends JPanel implements Runnable {
             mario.update();
             luigi.update();
             cam.pos(mario);
+            if(luigi.getSeMurio()){
+                detenerJuego();
+            }
         }
+        
 
-
-        if(mario.getSeMurio() || luigi.getSeMurio()){
+        if(mario.getSeMurio()){
             detenerJuego();
         }
     }
@@ -168,7 +171,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         g2.translate(cam.getX(), cam.getY());
         mario.mostrar(g2);
-        luigi.mostrar(g2);
+        if(multiplayer){
+            luigi.mostrar(g2);
+        }
         objetoManager.mostrar(g2);
         g2.translate(-cam.getX(), -cam.getY());
 

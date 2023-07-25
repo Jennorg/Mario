@@ -19,17 +19,24 @@ public class NivelManager {
     private Textura textura;
     private Reproductor reproductor;
     
-    public NivelManager(ObjetoManager manager, KeyManager key1, KeyManager key2, Textura textura, Reproductor reproductor){
+    boolean multiplayer;
+    
+    public NivelManager(ObjetoManager manager, KeyManager key1, KeyManager key2, Textura textura, Reproductor reproductor, boolean multiplayer){
         this.manager = manager;
         this.textura = textura;
         this.reproductor = reproductor;
         loader = new CargarBufferedImage();
         control1 = key1;
         control2 = key2;
+        this.multiplayer = multiplayer;
     }
     
     public void cargar(){
-        setNivel("/res/images/niveles/1.png");
+        if(!multiplayer){
+            setNivel("/res/images/niveles/1 - sin luigi.png");
+        } else {
+            setNivel("/res/images/niveles/1.png");
+        }
     }
     
     public void setNivel(String rutaNivel){
