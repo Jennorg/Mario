@@ -46,7 +46,7 @@ public class Player extends Objeto_Juego {
     LinkedList<Goomba> goombasEliminados;
     LinkedList<Objeto_Juego> items;
     
-    public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura){      
+    public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura, int i){      
         super(x, y, Objeto.Jugador, ANCHO, ALTO, escala);
         
         this.textura = textura;
@@ -60,8 +60,13 @@ public class Player extends Objeto_Juego {
         goombasEliminados = new LinkedList<Goomba>();
         items = new LinkedList<Objeto_Juego>();
         
-        playerGrande = textura.getMarioGrande();
-        playerPeque = textura.getMarioPeque();
+        if(i == 1){
+            playerGrande = textura.getMarioGrande();
+            playerPeque = textura.getMarioPeque();
+        } else {
+            playerGrande = textura.getLuigiGrande();
+            playerPeque = textura.getLuigiPeque();
+        }
         
         accion = Accion.quieto;
         estado = EstadoPlayer.Peque;

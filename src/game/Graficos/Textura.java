@@ -68,6 +68,7 @@ public class Textura {
         
         for(int i=0; i<NUMBER_PLAYER_G_SPRITES; i++){
             marioGrande[i] = playerSheet.getSubimage(xImage + i*(ancho+1), yImage, ancho, alto);
+            luigiGrande[i] = playerSheet.getSubimage(xImage + i*(ancho+1), yImage + 65, ancho, alto);
         }
         
         yImage += alto+1;
@@ -75,7 +76,10 @@ public class Textura {
         
         for(int i=0; i < NUMBER_PLAYER_P_SPRITES; i++){
             marioPeque[i] = playerSheet.getSubimage(xImage + i*(ancho+1), yImage, ancho, alto);
+            luigiPeque[i] = playerSheet.getSubimage(xImage + i*(ancho+1), yImage + 65, ancho, alto);
         }
+        
+        
     }
     
     private void getEnemyTextura(){        

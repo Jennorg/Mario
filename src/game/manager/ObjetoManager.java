@@ -9,7 +9,8 @@ import java.util.List;
 
 public class ObjetoManager {
     private List<Objeto_Juego> objetos;
-    private Player player;
+    private Player player1;
+    private Player player2;
     
     public ObjetoManager(){
         objetos = new LinkedList<Objeto_Juego>();
@@ -20,7 +21,7 @@ public class ObjetoManager {
             objeto.pos();
         }
         
-        LinkedList<Objeto_Juego> bloquesEliminados = player.getYResetLinkedListBloqueEliminado();
+        LinkedList<Objeto_Juego> bloquesEliminados = player1.getYResetLinkedListBloqueEliminado();
         for(Objeto_Juego bloqueEliminado : bloquesEliminados){
             eliminarObj(bloqueEliminado);
         }
@@ -44,28 +45,48 @@ public class ObjetoManager {
         return objetos;
     }
     
-    public int setPlayer(Player player){
-        if(this.player != null){
-            return -1;
+    public int setPlayer(Player player, int i){
+        switch (i) {
+            case 1:
+                if(this.player1 != null){
+                    return -1;
+                }   this.player1 = player;
+                objetos.add(player);
+                break;
+            case 2:
+                if(this.player2 != null){
+                    return -1;
+                }   this.player2 = player;
+                objetos.add(player);
+                break;
+            default:
+                return -1;
         }
-                
-        this.player = player;
-        objetos.add(player);
+        
         return 0;
     }
     
-    public int elimnarPlayer(Player player){
-        if(this.player == null){
+    public int elimnarPlayer1(Player player){
+        if(this.player1 == null){
             return -1;
         }
         
         objetos.remove(player);
-        this.player = null;
+        this.player1 = null;
         return 0;
     }
     
-    public Player getPlayer(){
-        return player;
+    public Player getPlayer(int i){
+        switch (i) {
+            case 1:
+                return player1;
+                
+            case 2:
+                return player2;
+        }
+        
+        return null;
     }
+    
     
 }

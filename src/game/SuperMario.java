@@ -33,7 +33,7 @@ public class SuperMario {
         window.setResizable(false);
         window.setTitle("Super Mairo!");
         
-        GamePanel game = new GamePanel();
+        GamePanel game = new GamePanel(true);
         window.add(game);
         window.pack();
         
@@ -41,7 +41,7 @@ public class SuperMario {
         window.setVisible(true);
         
         reproductor.openFile("src/res/audios/background.wav");
-        //reproductor.play();
+        reproductor.play();
         
         game.startGameThread();
       

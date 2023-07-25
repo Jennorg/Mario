@@ -33,31 +33,36 @@ public class GamePanel extends JPanel implements Runnable {
     public final int altoCamara = altoMaximo;
     public final int movimientoCamara = tamanioBaseCasilla*3;
     
-    private Player mario;
+    private Player mario, luigi;
     private NivelManager nivelManager;
-    private BufferedImage backgroundSpriteSheet;
+    private BufferedImage fondo;
+    private boolean multiplayer;
     
     Camara cam;
     Textura textura;
     Thread gameThread;
     ObjetoManager objetoManager;
-    KeyManager controlManager = new KeyManager();
+    KeyManager controlManager1 = new KeyManager(1), controlManager2 = new KeyManager(2);
     
-    public GamePanel(){
+    public GamePanel(boolean multiplayer){
         this.setPreferredSize(new Dimension(anchoMaximo, altoMaximo));
         this.setBackground(new java.awt.Color(92, 148, 252));
         this.setDoubleBuffered(true);
         
-        this.addKeyListener(controlManager);
+        this.addKeyListener(controlManager1);
+        this.addKeyListener(controlManager2);
         this.setFocusable(true);
         
         textura = new Textura();
         objetoManager = new ObjetoManager();
         cam = new Camara(0, movimientoCamara, this);
         
-        nivelManager = new NivelManager(objetoManager, controlManager, textura);
+        this.multiplayer = multiplayer;
+        
+        nivelManager = new NivelManager(objetoManager, controlManager1, controlManager2, textura);
         nivelManager.cargar();
-        mario = objetoManager.getPlayer();
+        mario = objetoManager.getPlayer(1);
+        luigi = objetoManager.getPlayer(2);
 
         objetoManager.enlazar();
     }
@@ -70,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
         // Load the sprite sheet image from the file
        try {
            URL imageUrl = getClass().getResource("/res/images/backgrounds/background.png");
-           backgroundSpriteSheet = ImageIO.read(imageUrl);
+           fondo = ImageIO.read(imageUrl);
        } catch (IOException e) {
            e.printStackTrace();
        }    
@@ -111,9 +116,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     
     public void update(){
-        objetoManager.enlazar();
-        mario.update();
-        cam.pos(mario);
+        if(!multiplayer){
+            objetoManager.enlazar();
+            mario.update();
+            cam.pos(mario);
+        } else {
+            objetoManager.enlazar();
+            mario.update();
+            luigi.update();
+            cam.pos(mario);
+        }
         
     }
     
@@ -123,30 +135,26 @@ public void paintComponent(Graphics g) {
 
     Graphics2D g2 = (Graphics2D) g;
 
-    // Draw the background sprite sheet frame
-    if (backgroundSpriteSheet != null) {
-        int frameWidth = 10000; // Replace with the actual width of one frame
-        int frameHeight = 660; // Replace with the actual height of one frame
+    if (fondo != null) {
+        int anchoFrame = 10000;
+        int altoFrame = 660; 
 
-        // Calculate the scale factors to fit the height of the GamePanel
-        double scaleY = (double) altoMaximo / frameHeight;
-        double scaleX = scaleY; // Keep the same aspect ratio for width
+        double escalaY = (double) altoMaximo / altoFrame;
+        double escalaX = escalaY;
+        
+        int scaledWidth = (int) (anchoFrame * escalaX);
+        int scaledHeight = (int) (altoFrame * escalaY);
+        
+        int x = (anchoMaximo - scaledWidth) / 2 - cam.getX(); 
+        int y = (altoMaximo - scaledHeight) / cam.getY();
 
-        // Calculate the width based on the scale factor
-        int scaledWidth = (int) (frameWidth * scaleX);
-        int scaledHeight = (int) (frameHeight * scaleY);
-
-        // Calculate the position to draw the frame on the screen (centered)
-        int drawX = (anchoMaximo - scaledWidth) / 2 - cam.getX(); // Adjust the X position based on camera position
-        int drawY = (altoMaximo - scaledHeight) / cam.getY(); // Adjust the Y position based on camera position
-
-        // Draw the scaled background image to fit the height of the GamePanel
-        g2.drawImage(backgroundSpriteSheet, drawX, drawY, drawX + scaledWidth, drawY + scaledHeight,
-                0, 0, frameWidth, frameHeight, null);
+        g2.drawImage(fondo, x, y, x + scaledWidth, y + scaledHeight,
+                0, 0, anchoFrame, altoFrame, null);
     }
 
     g2.translate(cam.getX(), cam.getY());
     mario.mostrar(g2);
+    luigi.mostrar(g2);
     objetoManager.mostrar(g2);
     g2.translate(-cam.getX(), -cam.getY());
 
