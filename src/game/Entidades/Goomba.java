@@ -19,7 +19,9 @@ public class Goomba extends Objeto_Juego {
     private int index;
     private BufferedImage[] sprite;
     private Animacion animacion;
-    ObjetoManager objManager;
+    private ObjetoManager objManager;
+    
+    private boolean pisado = false;
     
     public Goomba(float X, float Y, Objeto ID, float ancho, float alto, int scale, Textura textura, ObjetoManager objManager) {
         super(X, Y, ID, ancho, alto, scale);
@@ -43,9 +45,13 @@ public class Goomba extends Objeto_Juego {
 
     @Override
     public void mostrar(Graphics2D g) {
-        animacion.dibujarSprite(g, (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
+        if(!pisado){
+            animacion.dibujarSprite(g, (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
+        } else {
+            g.drawImage(sprite[2], (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto(), null);
+        }
         
-        //mostrarBordes(g);
+        mostrarBordes(g);
     }
 
     @Override
@@ -55,7 +61,7 @@ public class Goomba extends Objeto_Juego {
     
     public Rectangle getBordeTop(){
         return new Rectangle((int) (getX() + (getAncho()/2) - (getAncho()/4)),
-                            (int) (getY()),
+                            (int) (getY() - 5),
                             (int) (getAncho()/2),
                             (int) (getAlto()/2));               
     }
@@ -98,8 +104,12 @@ public class Goomba extends Objeto_Juego {
         for(int i = 0; i < objManager.getLista().size(); i++){
             Objeto_Juego temporal = objManager.getLista().get(i);
             if(temporal == this) continue;   
-            if(temporal.getId() == Objeto.Jugador && getBorde().intersects(temporal.getBorde())){
-                //codigo de muerte de uno u otro
+            if(temporal.getId() == Objeto.Jugador){
+                if (getBordeTop().intersects(temporal.getBorde())) {
+                    pisado = true;                   
+                    setVelocidadX(0);
+                    setVelocidadY(0);                    
+                }
                 
             } else { //Si choca con cualquier otra cosa, que camine a la otra dirección
                 if (getBordeBot().intersects(temporal.getBorde())) {
@@ -120,5 +130,9 @@ public class Goomba extends Objeto_Juego {
 
 
         }
+    }
+    
+    public boolean getPisado(){
+        return pisado;
     }
 }

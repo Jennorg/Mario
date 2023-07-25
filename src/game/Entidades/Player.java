@@ -42,7 +42,7 @@ public class Player extends Objeto_Juego {
     EstadoPlayer estado;
     
     LinkedList<Bloque> bloquesEliminados;
-    
+    LinkedList<Goomba> goombasEliminados;
     
     public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura){      
         super(x, y, Objeto.Jugador, ANCHO, ALTO, escala);
@@ -55,6 +55,7 @@ public class Player extends Objeto_Juego {
         objManager = objetoManager;
         
         bloquesEliminados = new LinkedList<Bloque>();
+        goombasEliminados = new LinkedList<Goomba>();
         
         playerGrande = textura.getMarioGrande();
         playerPeque = textura.getMarioPeque();
@@ -68,18 +69,23 @@ public class Player extends Objeto_Juego {
         
     }
     
-    public LinkedList<Bloque> getYResetLinkedListBloqueEliminado(){
-        LinkedList<Bloque> lista = new LinkedList<Bloque>();
+    public LinkedList<Objeto_Juego> getYResetLinkedListBloqueEliminado(){
+        LinkedList<Objeto_Juego> lista = new LinkedList<Objeto_Juego>();
+        
+        for(Goomba goomba: goombasEliminados){
+            if(!goomba.getPisado()) continue;
+            lista.add(goomba);
+        }
         
         for(Bloque bloqueEliminado: bloquesEliminados){
             if(!bloqueEliminado.tocaDesaparecer()) continue;
-           reproductor.openFile("src/res/audios/Block Break.wav");
-           reproductor.play();
             lista.add(bloqueEliminado);
              
         }
         
-        for(Bloque bloqueEliminado: lista){
+        
+        
+        for(Objeto_Juego bloqueEliminado: lista){
             bloquesEliminados.remove(bloqueEliminado);
             
         }
@@ -174,7 +180,11 @@ public class Player extends Objeto_Juego {
                 bloquesEliminados.add((Bloque) temporal);
                 
                 
-            }   else {    
+            }   else if(temporal.getId() == Objeto.Enemigo && getBordeBot().intersects(temporal.getBorde())){
+                if(temporal instanceof Goomba goomba){
+                    goombasEliminados.add(goomba);
+                }
+            } else {
                 
                 if(getBordeBot().intersects(temporal.getBorde())){                    
                     setVelocidadY(0);
@@ -265,5 +275,4 @@ public class Player extends Objeto_Juego {
         g.setColor(Color.MAGENTA);
         g2.draw(getBordeBot());
     }    
-
 }

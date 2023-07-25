@@ -20,8 +20,8 @@ public class ObjetoManager {
             objeto.pos();
         }
         
-        LinkedList<Bloque> bloquesEliminados = player.getYResetLinkedListBloqueEliminado();
-        for(Bloque bloqueEliminado : bloquesEliminados){
+        LinkedList<Objeto_Juego> bloquesEliminados = player.getYResetLinkedListBloqueEliminado();
+        for(Objeto_Juego bloqueEliminado : bloquesEliminados){
             eliminarObj(bloqueEliminado);
         }
     }
