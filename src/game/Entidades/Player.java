@@ -73,11 +73,15 @@ public class Player extends Objeto_Juego {
         
         for(Bloque bloqueEliminado: bloquesEliminados){
             if(!bloqueEliminado.tocaDesaparecer()) continue;
+           reproductor.openFile("src/res/audios/Block Break.wav");
+           reproductor.play();
             lista.add(bloqueEliminado);
+             
         }
         
         for(Bloque bloqueEliminado: lista){
             bloquesEliminados.remove(bloqueEliminado);
+            
         }
         
         return lista;
@@ -163,7 +167,7 @@ public class Player extends Objeto_Juego {
         for(int i = 0; i < objManager.getLista().size(); i++){
             Objeto_Juego temporal = objManager.getLista().get(i);
             if(temporal == this) continue;
-            if(temporal.getId() == Objeto.Bloque && getBordeTop().intersects(temporal.getBorde())){                                
+            if(temporal.getId() == Objeto.Bloque && getBordeTop().intersects(temporal.getBounds())){                                
                 setY(temporal.getY() + temporal.getAlto());
                 setVelocidadY(0);
                 ((Bloque) temporal).golpea();
@@ -172,7 +176,7 @@ public class Player extends Objeto_Juego {
                 
             }   else {    
                 
-                if(getBordeBot().intersects(temporal.getBorde())){                    
+                if(getBordeBot().intersects(temporal.getBounds())){                    
                     setVelocidadY(0);
                     setVelocidadX(0);
                     setY(temporal.getY() - temporal.getAlto()*1.5f);
@@ -185,7 +189,7 @@ public class Player extends Objeto_Juego {
                 }
 
                 
-                if(getBordeIzquierda().intersects(temporal.getBorde())){
+                if(getBordeIzquierda().intersects(temporal.getBounds())){
                     if(temporal.getId() == Objeto.Tubo){
                         setX(temporal.getX() + getAncho()*1.2f); // Establece la posición x del jugador al lado izquierdo del bloque
                         setVelocidadX(0);
@@ -197,12 +201,12 @@ public class Player extends Objeto_Juego {
                     
                 }
                 
-                if(getBordeTop().intersects(temporal.getBorde())){
+                if(getBordeTop().intersects(temporal.getBounds())){
                     setVelocidadY(0);
                     setY(temporal.getY() + temporal.getAlto());
                                        
                 }
-                if(getBordeDerecha().intersects(temporal.getBorde())){
+                if(getBordeDerecha().intersects(temporal.getBounds())){
                     setVelocidadX(0);
                     setX(temporal.getX() - temporal.getAncho()*1.2f);                    
                     
@@ -214,7 +218,7 @@ public class Player extends Objeto_Juego {
     }
 
     @Override
-    public Rectangle getBorde() {
+    public Rectangle getBounds() {
         return new Rectangle((int) (getX() + getAncho()/2 - getAncho()/4),
                             (int) (getY() + getAlto()/2),
                             (int) (getAncho()/2),
