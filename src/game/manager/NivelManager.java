@@ -17,10 +17,12 @@ public class NivelManager {
     private ObjetoManager manager;    
     private KeyManager control1, control2;
     private Textura textura;
+    private Reproductor reproductor;
     
-    public NivelManager(ObjetoManager manager, KeyManager key1, KeyManager key2, Textura textura){
+    public NivelManager(ObjetoManager manager, KeyManager key1, KeyManager key2, Textura textura, Reproductor reproductor){
         this.manager = manager;
         this.textura = textura;
+        this.reproductor = reproductor;
         loader = new CargarBufferedImage();
         control1 = key1;
         control2 = key2;
@@ -60,9 +62,9 @@ public class NivelManager {
                 } else if(rojo == 255 && verde == 201 && azul == 14){
                     manager.agregarObj(new Bloque(i*16, j*16, 16, 16, 28, 2, textura));
                 } else if(rojo == 255 && verde == 0 && azul == 0){
-                    manager.setPlayer(new Player(control1, manager, i*16, j*16, 3, textura, 1), 1);
+                    manager.setPlayer(new Player(control1, manager, i*16, j*16, 3, textura, 1, reproductor), 1);
                 } else if(rojo == 0 && verde == 255 && azul == 0){
-                    manager.setPlayer(new Player(control2, manager, i*16, j*16, 3, textura,2), 2);
+                    manager.setPlayer(new Player(control2, manager, i*16, j*16, 3, textura,2, reproductor), 2);
                 } else if(rojo == 230 && verde == 140 && azul == 0){
                     manager.agregarObj(new Goomba(i*16, j*16, Objeto.Enemigo, 16, 16, 2, textura, manager));
                 } else if(rojo == 255 && verde == 255 && azul == 0){

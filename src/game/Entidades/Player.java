@@ -31,8 +31,9 @@ public class Player extends Objeto_Juego {
     private boolean haciaDelante;
     private boolean salta = false;
     private boolean enElAire = false;
-    private boolean haGanado = false;    
-    Reproductor reproductor = new Reproductor();
+    private boolean haGanado = false;  
+    private boolean seMurio = false;
+    Reproductor reproductor;
 
     Accion accion;
     
@@ -46,7 +47,7 @@ public class Player extends Objeto_Juego {
     LinkedList<Goomba> goombasEliminados;
     LinkedList<Objeto_Juego> items;
     
-    public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura, int i){      
+    public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura, int i, Reproductor reproductor){      
         super(x, y, Objeto.Jugador, ANCHO, ALTO, escala);
         
         this.textura = textura;
@@ -54,6 +55,7 @@ public class Player extends Objeto_Juego {
         
         haciaDelante = false;
         
+        this.reproductor = reproductor;
         objManager = objetoManager;
         
         bloquesEliminados = new LinkedList<Bloque>();
@@ -104,14 +106,18 @@ public class Player extends Objeto_Juego {
             accion = Accion.muerto;
             setVelocidadX(0);
             setVelocidadY(0);
-            reproductor.openFile("src/res/audios/Death.wav");
-            reproductor.play(); 
+            reproductor.openFile("Death.wav","src/res/audios/Death.wav");
+            reproductor.play("Death.wav"); 
+            seMurio = true;
             
         }
         
         if(haGanado){
             setVelocidadX(0);
             setVelocidadY(0);
+            reproductor.openFile("Level Start.wav","src/res/audios/Level Start.wav");
+            reproductor.play("Level Start.wav"); 
+            seMurio = true;
         }
         
         setX(getVelocidadX() + getX());
@@ -152,8 +158,8 @@ public class Player extends Objeto_Juego {
                    setVelocidadY(-10);
                    salta = true;     
                    accion = Accion.saltando;
-                   reproductor.openFile("src/res/audios/jump.wav");
-                   reproductor.play();
+                   reproductor.openFile("jump.wav", "src/res/audios/jump.wav");
+                   reproductor.play("jump.wav");
 
                }
                enElAire = salta;
@@ -201,8 +207,8 @@ public class Player extends Objeto_Juego {
                 setVelocidadY(0);
                 ((Bloque) temporal).golpea();
                 bloquesEliminados.add((Bloque) temporal);
-                reproductor.openFile("src/res/audios/Block Break.wav");
-                reproductor.play();
+                reproductor.openFile("Block Break.wav","src/res/audios/Block Break.wav");
+                reproductor.play("Block Break.wav");
                 
                 
             }   else if (temporal.getId() == Objeto.Enemigo && temporal instanceof Goomba goomba) {
@@ -220,8 +226,9 @@ public class Player extends Objeto_Juego {
                     haGanado = true;
                 }
                 
+            } else if(temporal.getId() == Objeto.Jugador){
+                continue;
             } else {
-                
                 if(getBordeBot().intersects(temporal.getBorde())){                    
                     setVelocidadY(0);
                     setVelocidadX(0);
@@ -310,5 +317,9 @@ public class Player extends Objeto_Juego {
 
     public boolean seMuere(){
         return n_Golpes <= 0;
+    }
+    
+    public boolean getSeMurio(){
+        return seMurio;
     }
 }

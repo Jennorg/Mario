@@ -37,7 +37,9 @@ public class GamePanel extends JPanel implements Runnable {
     private NivelManager nivelManager;
     private BufferedImage fondo;
     private boolean multiplayer;
+    private boolean juegoEnEjecucion = true;
     
+    Reproductor reproductor = new Reproductor();
     Camara cam;
     Textura textura;
     Thread gameThread;
@@ -52,6 +54,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(controlManager1);
         this.addKeyListener(controlManager2);
         this.setFocusable(true);
+       
         
         textura = new Textura();
         objetoManager = new ObjetoManager();
@@ -59,12 +62,14 @@ public class GamePanel extends JPanel implements Runnable {
         
         this.multiplayer = multiplayer;
         
-        nivelManager = new NivelManager(objetoManager, controlManager1, controlManager2, textura);
+        nivelManager = new NivelManager(objetoManager, controlManager1, controlManager2, textura, reproductor);
         nivelManager.cargar();
         mario = objetoManager.getPlayer(1);
         luigi = objetoManager.getPlayer(2);
 
         objetoManager.enlazar();
+        reproductor.openFile("background.wav","src/res/audios/background.wav");
+        reproductor.play("background.wav");
     }
     
     public void startGameThread(){
@@ -111,6 +116,11 @@ public class GamePanel extends JPanel implements Runnable {
                 drawCount = 0;
                 timer = 0;
             }
+            
+            if(!juegoEnEjecucion){
+                gameThread = null;
+                reproductor.stop("background.wav");
+            }
         }
     }
 
@@ -126,43 +136,49 @@ public class GamePanel extends JPanel implements Runnable {
             luigi.update();
             cam.pos(mario);
         }
-        
+
+
+        if(mario.getSeMurio() || luigi.getSeMurio()){
+            detenerJuego();
+        }
     }
     
-@Override
-public void paintComponent(Graphics g) {
-    super.paintComponent(g);
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
 
-    Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
 
-    if (fondo != null) {
-        int anchoFrame = 10000;
-        int altoFrame = 660; 
+        if (fondo != null) {
+            int anchoFrame = 10000;
+            int altoFrame = 660; 
 
-        double escalaY = (double) altoMaximo / altoFrame;
-        double escalaX = escalaY;
-        
-        int scaledWidth = (int) (anchoFrame * escalaX);
-        int scaledHeight = (int) (altoFrame * escalaY);
-        
-        int x = (anchoMaximo - scaledWidth) / 2 - cam.getX(); 
-        int y = (altoMaximo - scaledHeight) / cam.getY();
+            double escalaY = (double) altoMaximo / altoFrame;
+            double escalaX = escalaY;
 
-        g2.drawImage(fondo, x, y, x + scaledWidth, y + scaledHeight,
-                0, 0, anchoFrame, altoFrame, null);
+            int scaledWidth = (int) (anchoFrame * escalaX);
+            int scaledHeight = (int) (altoFrame * escalaY);
+
+            int x = (anchoMaximo - scaledWidth) / 2 - cam.getX(); 
+            int y = (altoMaximo - scaledHeight) / cam.getY();
+
+            g2.drawImage(fondo, x, y, x + scaledWidth, y + scaledHeight,
+                    0, 0, anchoFrame, altoFrame, null);
+        }
+
+        g2.translate(cam.getX(), cam.getY());
+        mario.mostrar(g2);
+        luigi.mostrar(g2);
+        objetoManager.mostrar(g2);
+        g2.translate(-cam.getX(), -cam.getY());
+
+        g2.dispose();
     }
 
-    g2.translate(cam.getX(), cam.getY());
-    mario.mostrar(g2);
-    luigi.mostrar(g2);
-    objetoManager.mostrar(g2);
-    g2.translate(-cam.getX(), -cam.getY());
-
-    g2.dispose();
-}
-
-
-
+    
+    public void detenerJuego() {
+        juegoEnEjecucion = false;
+    }
     
     public Textura getTextura(){
         return textura;

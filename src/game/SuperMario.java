@@ -27,9 +27,6 @@ public class SuperMario {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        
-        Reproductor reproductor = new Reproductor();
-        
         window.setResizable(false);
         window.setTitle("Super Mairo!");
         
@@ -40,8 +37,6 @@ public class SuperMario {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         
-        reproductor.openFile("src/res/audios/background.wav");
-        reproductor.play();
         
         game.startGameThread();
       
