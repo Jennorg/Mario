@@ -12,5 +12,6 @@ public enum Objeto{
     Jugador,
     Enemigo,
     Bloque,
-    Tubo;
+    Tubo,
+    Item;
 }

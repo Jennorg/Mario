@@ -55,7 +55,7 @@ public class Escombro {
     }
     
     public boolean tocaDesaparecer(){
-        return (y[1] > 768);//alto de pantalla                    
+        return (y[1] > 233);//alto de pantalla                    
     }
     
     public void mostrar(Graphics g){

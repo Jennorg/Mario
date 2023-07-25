@@ -16,7 +16,6 @@ public class Goomba extends Objeto_Juego {
 
     private Textura textura;
 
-    private int index;
     private BufferedImage[] sprite;
     private Animacion animacion;
     private ObjetoManager objManager;
@@ -105,8 +104,8 @@ public class Goomba extends Objeto_Juego {
             Objeto_Juego temporal = objManager.getLista().get(i);
             if(temporal == this) continue;   
             if(temporal.getId() == Objeto.Jugador){
-                if (getBordeTop().intersects(temporal.getBorde())) {
-                    pisado = true;                   
+                if (getBordeTop().intersects(temporal.getBorde())) {  
+                    pisado = true;
                     setVelocidadX(0);
                     setVelocidadY(0);                    
                 }
@@ -131,8 +130,7 @@ public class Goomba extends Objeto_Juego {
 
         }
     }
-    
-    public boolean getPisado(){
+    public boolean esPisado(){
         return pisado;
     }
 }

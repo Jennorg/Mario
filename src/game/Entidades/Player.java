@@ -23,7 +23,7 @@ import java.util.LinkedList;
 public class Player extends Objeto_Juego {
     public static final float ANCHO = 16;
     public static final float ALTO = 16;  
-    int n_Golpes = 2;
+    int n_Golpes = 1;
     GamePanel game;
     KeyManager controlManager;
    
@@ -73,7 +73,7 @@ public class Player extends Objeto_Juego {
         LinkedList<Objeto_Juego> lista = new LinkedList<Objeto_Juego>();
         
         for(Goomba goomba: goombasEliminados){
-            if(!goomba.getPisado()) continue;
+
             lista.add(goomba);
         }
         
@@ -95,6 +95,13 @@ public class Player extends Objeto_Juego {
     
     @Override
     public void pos() {
+        
+        if (seMuere()) {
+            accion = Accion.muerto;
+            setVelocidadX(0);
+            setVelocidadY(0);
+        }
+        
         setX(getVelocidadX() + getX());
         setY(getVelocidadY() + getY());
         
@@ -106,38 +113,40 @@ public class Player extends Objeto_Juego {
     
     public void update() {  
         
-        if (controlManager.derecha) {
-            setVelocidadX(3);
-            if(!salta){
-                accion = Accion.caminando;
-            }
-            haciaDelante = true;
-        } else if (controlManager.izquierda) {
-            setVelocidadX(-3);
-            if(!salta){
-                accion = Accion.caminando;
-            }
-            haciaDelante = false;
-                    
-        } else {
-            setVelocidadX(0);
-            if(!salta){
-                accion = Accion.quieto;
-            }
-        }
+        if(!seMuere()){
         
-        if (controlManager.arriba) {
-           if(!salta){
-               setVelocidadY(-8);
-               salta = true;     
-               accion = Accion.saltando;
-               //reproductor.openFile("src/res/audios/jump.wav");
-               reproductor.play();
-               
-           }
-           enElAire = salta;
-        } 
-                          
+            if (controlManager.derecha) {
+                setVelocidadX(3);
+                if(!salta){
+                    accion = Accion.caminando;
+                }
+                haciaDelante = true;
+            } else if (controlManager.izquierda) {
+                setVelocidadX(-3);
+                if(!salta){
+                    accion = Accion.caminando;
+                }
+                haciaDelante = false;
+
+            } else {
+                setVelocidadX(0);
+                if(!salta){
+                    accion = Accion.quieto;
+                }
+            }
+
+            if (controlManager.arriba) {
+               if(!salta){
+                   setVelocidadY(-10);
+                   salta = true;     
+                   accion = Accion.saltando;
+                   //reproductor.openFile("src/res/audios/jump.wav");
+                   reproductor.play();
+
+               }
+               enElAire = salta;
+            } 
+        }                  
     }
 
 
@@ -163,6 +172,8 @@ public class Player extends Objeto_Juego {
                     g2.drawImage(actualSprite[5], (int) (getX() + getAncho()), (int) getY(), (int) -getAncho(), (int) getAlto(), null);
                 }
                 break;
+            case muerto:
+                g2.drawImage(actualSprite[6], (int) (getX() + getAncho()), (int) getY(), (int) -getAncho(), (int) getAlto(), null);
         }
 
         //mostrarBordes(g2);
@@ -180,10 +191,15 @@ public class Player extends Objeto_Juego {
                 bloquesEliminados.add((Bloque) temporal);
                 
                 
-            }   else if(temporal.getId() == Objeto.Enemigo && getBordeBot().intersects(temporal.getBorde())){
-                if(temporal instanceof Goomba goomba){
+            }   else if (temporal.getId() == Objeto.Enemigo && temporal instanceof Goomba goomba) {
+                if (getBordeBot().intersects(temporal.getBorde()) && goomba.esPisado()) {
                     goombasEliminados.add(goomba);
+                    setVelocidadY(-5); // Impulso hacia arriba cuando el jugador salta sobre el Goomba
+                } else if (getBorde().intersects(temporal.getBorde())) {
+                    n_Golpes--; // Reduce el número de golpes del jugador cuando choca con un Goomba
+                    // Puedes agregar aquí algún efecto de sonido o animación de golpe
                 }
+                
             } else {
                 
                 if(getBordeBot().intersects(temporal.getBorde())){                    
@@ -274,5 +290,9 @@ public class Player extends Objeto_Juego {
         g2.draw(getBordeTop());
         g.setColor(Color.MAGENTA);
         g2.draw(getBordeBot());
-    }    
+    }
+
+    public boolean seMuere(){
+        return n_Golpes <= 0;
+    }
 }

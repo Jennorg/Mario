@@ -5,5 +5,5 @@
 package game.Entidades;
 
 public enum Accion {
-    caminando, saltando, quieto
+    caminando, saltando, quieto, muerto
 }
