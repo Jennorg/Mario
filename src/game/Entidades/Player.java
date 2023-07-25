@@ -155,7 +155,7 @@ public class Player extends Objeto_Juego {
                 break;
         }
 
-        mostrarBordes(g2);
+        //mostrarBordes(g2);
     }
 
     

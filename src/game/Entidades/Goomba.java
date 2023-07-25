@@ -43,9 +43,9 @@ public class Goomba extends Objeto_Juego {
 
     @Override
     public void mostrar(Graphics2D g) {
-        g.drawImage(sprite[index], (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto(), null);
+        animacion.dibujarSprite(g, (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
         
-        mostrarBordes(g);
+        //mostrarBordes(g);
     }
 
     @Override
@@ -101,29 +101,23 @@ public class Goomba extends Objeto_Juego {
             if(temporal.getId() == Objeto.Jugador && getBorde().intersects(temporal.getBorde())){
                 //codigo de muerte de uno u otro
                 
-            } else { //Si choca con cualquier otra cosa, que camine a la otra direccion
-                
-                if(getBordeBot().intersects(temporal.getBorde())){                    
-                    setY(temporal.getY() - temporal.getAlto());
+            } else { //Si choca con cualquier otra cosa, que camine a la otra dirección
+                if (getBordeBot().intersects(temporal.getBorde())) {
+                    setY(temporal.getY() - getAlto());
+                    setVelocidadY(0); // Detener el movimiento vertical si choca con algo en la parte inferior
                 }
-                
-//                if(getBordeIzquierda().intersects(temporal.getBorde())){
-//                    if(temporal.getId() == Objeto.Tubo){
-//                        setX(temporal.getX() + getAncho()*2); 
-//                        
-//                    } else {                        
-//                        setX(temporal.getX() + getAncho()*0.5f);                          
-//                    }   
-//                    setVelocidadX(-getVelocidadX());                    
-//                }
-//                                
-//                if(getBordeDerecha().intersects(temporal.getBorde())){
-//                    setVelocidadX(-getVelocidadX());
-//                    setX(temporal.getX() - temporal.getAncho()*2);                    
-//                    
-//                }                                                
-               
-            } 
+
+                if (getBordeIzquierda().intersects(temporal.getBorde())) {
+                    // Cambiar la dirección del Goomba cuando choca con algo en la parte izquierda
+                    setVelocidadX(-Math.abs(getVelocidadX())); // Valor absoluto para asegurarse de que la velocidad sea positiva
+                }
+
+                if (getBordeDerecha().intersects(temporal.getBorde())) {
+                    // Cambiar la dirección del Goomba cuando choca con algo en la parte derecha
+                    setVelocidadX(Math.abs(getVelocidadX())); // Valor absoluto para asegurarse de que la velocidad sea negativa
+                }
+            }
+
 
         }
     }

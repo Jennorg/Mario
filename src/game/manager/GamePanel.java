@@ -67,13 +67,13 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread.start();
         
         
-     // Load the sprite sheet image from the file
-    try {
-        URL imageUrl = getClass().getResource("/res/images/backgrounds/background.png");
-        backgroundSpriteSheet = ImageIO.read(imageUrl);
-    } catch (IOException e) {
-        e.printStackTrace();
-    }    
+        // Load the sprite sheet image from the file
+       try {
+           URL imageUrl = getClass().getResource("/res/images/backgrounds/background.png");
+           backgroundSpriteSheet = ImageIO.read(imageUrl);
+       } catch (IOException e) {
+           e.printStackTrace();
+       }    
         
     }
     
