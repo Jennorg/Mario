@@ -68,8 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
         luigi = objetoManager.getPlayer(2);
 
         objetoManager.enlazar();
-        //reproductor.openFile("background.wav","src/res/audios/background.wav");
-        //reproductor.play("background.wav");
+        reproductor.openFile("background.wav","src/res/audios/background.wav");
+        reproductor.play("background.wav");
     }
     
     public void startGameThread(){
