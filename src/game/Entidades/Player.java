@@ -3,6 +3,7 @@ package game.Entidades;
 import game.Graficos.Animacion;
 import game.Graficos.Textura;
 import game.Objeto.Bloque;
+import game.Objeto.Estrella;
 import game.Objeto.Objeto;
 import static game.Objeto.Objeto.Bloque;
 import static game.Objeto.Objeto.Tubo;
@@ -30,7 +31,7 @@ public class Player extends Objeto_Juego {
     private boolean haciaDelante;
     private boolean salta = false;
     private boolean enElAire = false;
-    private boolean enElSuelo = true;
+    private boolean haGanado = false;    
     Reproductor reproductor = new Reproductor();
 
     Accion accion;
@@ -89,13 +90,6 @@ public class Player extends Objeto_Juego {
              
         }
         
-        
-        
-//        for(Objeto_Juego bloqueEliminado: lista){
-//            bloquesEliminados.remove(bloqueEliminado);
-//            
-//        }
-        
         return lista;
     }
     
@@ -104,6 +98,11 @@ public class Player extends Objeto_Juego {
         
         if (seMuere()) {
             accion = Accion.muerto;
+            setVelocidadX(0);
+            setVelocidadY(0);
+        }
+        
+        if(haGanado){
             setVelocidadX(0);
             setVelocidadY(0);
         }
@@ -207,7 +206,10 @@ public class Player extends Objeto_Juego {
                 
             } else if(temporal.getId() == Objeto.Item) {
                 
-                
+                if(temporal instanceof Estrella && getBorde().intersects(temporal.getBorde())){
+                    items.add(temporal);
+                    haGanado = true;
+                }
                 
             } else {
                 
@@ -215,13 +217,9 @@ public class Player extends Objeto_Juego {
                     setVelocidadY(0);
                     setVelocidadX(0);
                     setY(temporal.getY() - temporal.getAlto()*1.5f);
-                    enElSuelo = true;
                     enElAire = false;
                     salta = false;
-                } else {
-                    enElSuelo = false;
-                    enElAire = true;
-                }
+                } 
 
                 
                 if(getBordeIzquierda().intersects(temporal.getBorde())){
