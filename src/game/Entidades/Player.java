@@ -92,7 +92,6 @@ public class Player extends Objeto_Juego {
         for(Bloque bloqueEliminado: bloquesEliminados){
             if(!bloqueEliminado.tocaDesaparecer()) continue;
             lista.add(bloqueEliminado);
-             
         }
         
         return lista;
@@ -105,6 +104,9 @@ public class Player extends Objeto_Juego {
             accion = Accion.muerto;
             setVelocidadX(0);
             setVelocidadY(0);
+            reproductor.openFile("src/res/audios/Death.wav");
+            reproductor.play(); 
+            
         }
         
         if(haGanado){
@@ -199,6 +201,8 @@ public class Player extends Objeto_Juego {
                 setVelocidadY(0);
                 ((Bloque) temporal).golpea();
                 bloquesEliminados.add((Bloque) temporal);
+                reproductor.openFile("src/res/audios/Block Break.wav");
+                reproductor.play();
                 
                 
             }   else if (temporal.getId() == Objeto.Enemigo && temporal instanceof Goomba goomba) {
