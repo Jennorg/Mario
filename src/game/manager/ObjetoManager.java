@@ -50,13 +50,15 @@ public class ObjetoManager {
             case 1:
                 if(this.player1 != null){
                     return -1;
-                }   this.player1 = player;
+                }   
+                this.player1 = player;
                 objetos.add(player);
                 break;
             case 2:
                 if(this.player2 != null){
                     return -1;
-                }   this.player2 = player;
+                }   
+                this.player2 = player;
                 objetos.add(player);
                 break;
             default:
@@ -66,7 +68,7 @@ public class ObjetoManager {
         return 0;
     }
     
-    public int elimnarPlayer1(Player player){
+    public int elimnarPlayer(Player player){
         if(this.player1 == null){
             return -1;
         }

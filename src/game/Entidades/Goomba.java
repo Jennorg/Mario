@@ -25,7 +25,7 @@ public class Goomba extends Objeto_Juego {
     public Goomba(float X, float Y, Objeto ID, float ancho, float alto, int scale, Textura textura, ObjetoManager objManager) {
         super(X, Y, ID, ancho, alto, scale);
         this.textura = textura;
-        sprite = textura.getKoopa1();
+        sprite = textura.getTortuga1();
         animacion = new Animacion(5,sprite[0],sprite[1]);
         this.objManager = objManager;
         setVelocidadX(-1);

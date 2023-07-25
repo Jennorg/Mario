@@ -26,8 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int maxCasillasVerticales = 24;
     public final int FPS = 60;
     
-    public final int anchoMaximo = tamanioCasilla * maxCasillasHorizontales; //896
-    public final int altoMaximo = tamanioCasilla * maxCasillasVerticales;   //768
+    public final int anchoMaximo = tamanioCasilla * maxCasillasHorizontales;
+    public final int altoMaximo = tamanioCasilla * maxCasillasVerticales;  
     
     public final int anchoCamara = anchoMaximo;
     public final int altoCamara = altoMaximo;
@@ -68,8 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
         luigi = objetoManager.getPlayer(2);
 
         objetoManager.enlazar();
-        reproductor.openFile("background.wav","src/res/audios/background.wav");
-        reproductor.play("background.wav");
+        //reproductor.openFile("background.wav","src/res/audios/background.wav");
+        //reproductor.play("background.wav");
     }
     
     public void startGameThread(){
@@ -159,13 +159,13 @@ public class GamePanel extends JPanel implements Runnable {
             double escalaY = (double) altoMaximo / altoFrame;
             double escalaX = escalaY;
 
-            int scaledWidth = (int) (anchoFrame * escalaX);
-            int scaledHeight = (int) (altoFrame * escalaY);
+            int escalaAncho = (int) (anchoFrame * escalaX);
+            int escalaAlto = (int) (altoFrame * escalaY);
 
-            int x = (anchoMaximo - scaledWidth) / 2 - cam.getX(); 
-            int y = (altoMaximo - scaledHeight) / cam.getY();
+            int x = (anchoMaximo - escalaAncho) / 2 - cam.getX(); 
+            int y = (altoMaximo - escalaAlto) / cam.getY();
 
-            g2.drawImage(fondo, x, y, x + scaledWidth, y + scaledHeight,
+            g2.drawImage(fondo, x, y, x + escalaAncho, y + escalaAlto,
                     0, 0, anchoFrame, altoFrame, null);
         }
 
