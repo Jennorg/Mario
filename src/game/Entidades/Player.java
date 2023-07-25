@@ -73,11 +73,15 @@ public class Player extends Objeto_Juego {
         
         for(Bloque bloqueEliminado: bloquesEliminados){
             if(!bloqueEliminado.tocaDesaparecer()) continue;
+           reproductor.openFile("src/res/audios/Block Break.wav");
+           reproductor.play();
             lista.add(bloqueEliminado);
+             
         }
         
         for(Bloque bloqueEliminado: lista){
             bloquesEliminados.remove(bloqueEliminado);
+            
         }
         
         return lista;
