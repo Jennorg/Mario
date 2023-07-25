@@ -1,9 +1,11 @@
 package game.manager;
 
+import game.Entidades.Goomba;
 import game.Entidades.Player;
 import game.Graficos.CargarBufferedImage;
 import game.Graficos.Textura;
 import game.Objeto.Bloque;
+import game.Objeto.Objeto;
 import game.Objeto.Tubo;
 import java.awt.image.BufferedImage;
 
@@ -57,6 +59,8 @@ public class NivelManager {
                     manager.agregarObj(new Bloque(i*16, j*16, 16, 16, 28, 2, textura));
                 } else if(rojo == 255 && verde == 0 && azul == 0){
                     manager.setPlayer(new Player(control, manager, i*16, j*16, 3, textura));
+                } else if(rojo == 230 && verde == 140 && azul == 0){
+                    manager.agregarObj(new Goomba(i*16, j*16, Objeto.Enemigo, 16, 16, 2, textura, manager));
                 }
                 
             }
