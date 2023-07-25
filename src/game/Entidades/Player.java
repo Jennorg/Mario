@@ -43,6 +43,7 @@ public class Player extends Objeto_Juego {
     
     LinkedList<Bloque> bloquesEliminados;
     LinkedList<Goomba> goombasEliminados;
+    LinkedList<Objeto_Juego> items;
     
     public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura){      
         super(x, y, Objeto.Jugador, ANCHO, ALTO, escala);
@@ -56,6 +57,7 @@ public class Player extends Objeto_Juego {
         
         bloquesEliminados = new LinkedList<Bloque>();
         goombasEliminados = new LinkedList<Goomba>();
+        items = new LinkedList<Objeto_Juego>();
         
         playerGrande = textura.getMarioGrande();
         playerPeque = textura.getMarioPeque();
@@ -77,6 +79,10 @@ public class Player extends Objeto_Juego {
             lista.add(goomba);
         }
         
+        for(Objeto_Juego obj: items){
+            lista.add(obj);
+        }
+        
         for(Bloque bloqueEliminado: bloquesEliminados){
             if(!bloqueEliminado.tocaDesaparecer()) continue;
             lista.add(bloqueEliminado);
@@ -85,10 +91,10 @@ public class Player extends Objeto_Juego {
         
         
         
-        for(Objeto_Juego bloqueEliminado: lista){
-            bloquesEliminados.remove(bloqueEliminado);
-            
-        }
+//        for(Objeto_Juego bloqueEliminado: lista){
+//            bloquesEliminados.remove(bloqueEliminado);
+//            
+//        }
         
         return lista;
     }
@@ -140,7 +146,7 @@ public class Player extends Objeto_Juego {
                    setVelocidadY(-10);
                    salta = true;     
                    accion = Accion.saltando;
-                   //reproductor.openFile("src/res/audios/jump.wav");
+                   reproductor.openFile("src/res/audios/jump.wav");
                    reproductor.play();
 
                }
@@ -197,8 +203,11 @@ public class Player extends Objeto_Juego {
                     setVelocidadY(-5); // Impulso hacia arriba cuando el jugador salta sobre el Goomba
                 } else if (getBorde().intersects(temporal.getBorde())) {
                     n_Golpes--; // Reduce el número de golpes del jugador cuando choca con un Goomba
-                    // Puedes agregar aquí algún efecto de sonido o animación de golpe
                 }
+                
+            } else if(temporal.getId() == Objeto.Item) {
+                
+                
                 
             } else {
                 

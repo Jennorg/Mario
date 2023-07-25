@@ -50,7 +50,7 @@ public class Goomba extends Objeto_Juego {
             g.drawImage(sprite[2], (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto(), null);
         }
         
-        mostrarBordes(g);
+        //mostrarBordes(g);
     }
 
     @Override

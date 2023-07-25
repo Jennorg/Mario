@@ -41,10 +41,6 @@ public class Bloque extends Objeto_Juego{
         } else {
             escombro.mostrar(g);
         }
-        
-        
-        g.setColor(Color.red);
-        g.draw(getBorde());
     }
 
     @Override

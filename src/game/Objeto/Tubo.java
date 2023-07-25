@@ -31,9 +31,6 @@ public class Tubo extends Objeto_Juego{
     @Override
     public void mostrar(Graphics2D g) {
         g.drawImage(sprite[index], (int) getX(), (int) getY(), (int) getAncho()*2, (int) getAlto(), null);
-        
-        g.setColor(Color.red);
-        g.draw(getBorde());
     }
 
     @Override
