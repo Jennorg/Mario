@@ -1,4 +1,4 @@
-package game.Objeto;
+package game.Objeto.Bloques;
 
 import game.Graficos.Textura;
 import game.manager.GamePanel;
@@ -6,14 +6,12 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class Escombro {
-    private Textura textura;
     private BufferedImage[] escombros;
     private int escala;
     private float ancho, alto, velocidadX, velocidadY;
     float[] x, y;
     
-    public Escombro(float x, float y, float ancho, float alto, int escala, Textura textura){
-        this.textura = textura;
+    public Escombro(float x, float y, float ancho, float alto, int escala, BufferedImage[] sprite){
         
         this.x = new float[4];
         this.y = new float[4];
@@ -30,7 +28,7 @@ public class Escombro {
         
         this.ancho = ancho/2;
         this.alto = alto/2;
-        escombros = textura.getEscombros1();
+        escombros = sprite;
         
         velocidadX = 2f;
         velocidadY = -5f;
@@ -55,7 +53,7 @@ public class Escombro {
     }
     
     public boolean tocaDesaparecer(){
-        return (y[1] > 233);//alto de pantalla                    
+        return (y[1] > 201);//alto de pantalla                    
     }
     
     public void mostrar(Graphics g){

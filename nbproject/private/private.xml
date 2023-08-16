@@ -3,28 +3,21 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/manager/NivelManager.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Graficos/Camara.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Objeto/Objeto_Juego.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/MarioLogin.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/manager/GamePanel.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Objeto/Estrella.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/manager/Reproductor.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/manager/KeyManager.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Graficos/Textura.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Objeto/Escombro.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Objeto/Bloque.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Entidades/EstadoPlayer.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Entidades/Accion.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Entidades/Goomba.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Entidades/Player.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/SuperMario.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/manager/ObjetoManager.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Objeto/Objeto.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Graficos/AnimacionID.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Graficos/CargarBufferedImage.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Graficos/Animacion.java</file>
-            <file>file:/C:/Users/user/Documents/NetBeansProjects/super-Mario-main/src/game/Objeto/Tubo.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/manager/ObjetoManager.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/manager/NivelManager.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Objeto/Items/Item.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Entidades/Player.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/manager/Reproductor.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/manager/GamePanel.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/manager/KeyManager.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Objeto/Bloques/LadrilloBloque.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Objeto/Bloques/Bloque.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Graficos/Animacion.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Graficos/AnimacionID.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/manager/TimeManager.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Objeto/Items/Hongo.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Objeto/Bloques/ItemBloque.java</file>
+            <file>file:/C:/Users/user/Documents/NetBeansProjects/Mario/src/game/Objeto/Bloques/Escombro.java</file>
         </group>
     </open-files>
 </project-private>

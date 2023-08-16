@@ -18,7 +18,7 @@ public class Textura {
     private BufferedImage[] tortuga_1, tortuga_2, tortuga_3;
     private BufferedImage[] casilla_1, casilla_2, casilla_3, casilla_4, tubo_1;
     private BufferedImage[] escombros_1;
-    private BufferedImage[] hongo, hongoConCarita, flor, estrella;    
+    private BufferedImage[] hongo, hongoConCarita, flor, estrella, moneda;    
     
     public Textura(){
         marioPeque = new BufferedImage[NUMBER_PLAYER_P_SPRITES];
@@ -32,18 +32,19 @@ public class Textura {
         casilla_4 = new BufferedImage[NUMBER_CASILLA_1 + NUMBER_CASILLA_2];
         tubo_1 = new BufferedImage[4];
         escombros_1 = new BufferedImage[4];
+        
         koopa_1 = new BufferedImage[3];
         koopa_2 = new BufferedImage[3];
-        koopa_3 = new BufferedImage[3];
-               
-        tortuga_1 = new BufferedImage[2];
-        tortuga_2 = new BufferedImage[2];
-        tortuga_3 = new BufferedImage[2];
+        koopa_3 = new BufferedImage[3];               
+        tortuga_1 = new BufferedImage[3];
+        tortuga_2 = new BufferedImage[3];
+        tortuga_3 = new BufferedImage[3];
         
         hongo = new BufferedImage[3];
         hongoConCarita = new BufferedImage[3];
         flor = new BufferedImage[4];
         estrella = new BufferedImage[4];
+        moneda = new BufferedImage[4];
         
         loader = new CargarBufferedImage();
         playerSheet = loader.cargarImagen("/res/images/sheets/mario-luigi-sheet.png");
@@ -89,7 +90,7 @@ public class Textura {
         int ancho = 16;
         int alto = 16;
         
-        for(int j = 0; j < 2; j++){
+        for(int j = 0; j < 3; j++){
             
             switch(j){
                 case 0:
@@ -119,17 +120,21 @@ public class Textura {
                         tortuga_1[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
                     }
                     
+                    tortuga_1[2] = enemySheet.getSubimage(xImage + 64, yImage, ancho, alto);
                     yImage += alto+16;
 
                     for(int i=0; i<2; i++){
                         tortuga_2[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
                     }
                     
+                    tortuga_2[2] = enemySheet.getSubimage(xImage + 64, yImage, ancho, alto);
                     yImage += alto+16;
 
                     for(int i=0; i<2; i++){
                         tortuga_3[i] = enemySheet.getSubimage(xImage + (ancho*i), yImage, ancho, alto);
-                    }                    
+                    }
+
+                    tortuga_3[2] = enemySheet.getSubimage(xImage + 64, yImage, ancho, alto);
                     break;
 
             }
@@ -218,33 +223,16 @@ public class Textura {
         int yImage = 0;
         int alto = 16;
         int ancho = 16;
-        for(int i = 0; i<4; i++){
-            for(int j = 0; j<3; j++){
-                switch(j){
-                    case 0:
-                        hongo[j] = itemsSheet.getSubimage(xImage + (j*ancho), yImage, ancho, alto);
-                        hongoConCarita[j] = itemsSheet.getSubimage(xImage + j*ancho, yImage + alto, ancho, alto);
-                        break;
-                        
-                    case 1:
-                        hongo[j] = itemsSheet.getSubimage(xImage + (j*ancho), yImage, ancho, alto);
-                        hongoConCarita[j] = itemsSheet.getSubimage(xImage + j*ancho, yImage + alto, ancho, alto);
-                        break;
-                    
-                    case 2:
-                        hongo[j] = itemsSheet.getSubimage(xImage + (j*ancho), yImage, ancho, alto);
-                        hongoConCarita[j] = itemsSheet.getSubimage(xImage + j*ancho, yImage + alto, ancho, alto);
-                        break;
-                }
-            }
-            
-            
+        for(int i = 0; i<4; i++){            
             flor[i] = itemsSheet.getSubimage(xImage + i*ancho, yImage + 2*alto, ancho, alto);
             estrella[i] = itemsSheet.getSubimage(xImage + i*ancho, yImage + 3*alto, ancho, alto);
-            
-            
+            moneda[i] = itemsSheet.getSubimage(xImage + i*ancho, yImage + 6*alto, ancho, alto);                        
         }
-        yImage += alto;
+        
+        for(int j = 0; j<3; j++){
+            hongo[j] = itemsSheet.getSubimage(xImage + (j*ancho), yImage, ancho, alto);
+            hongoConCarita[j] = itemsSheet.getSubimage(xImage + j*ancho, yImage + alto, ancho, alto);
+        }
     }
     
     public BufferedImage[] getMarioPeque(){
@@ -325,5 +313,9 @@ public class Textura {
     
     public BufferedImage[] getEstrella(){
         return estrella;
+    }
+    
+    public BufferedImage[] getMoneda(){
+        return moneda;
     }
 }

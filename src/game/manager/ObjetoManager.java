@@ -1,7 +1,10 @@
 package game.manager;
 
 import game.Entidades.Player;
-import game.Objeto.Bloque;
+import game.Objeto.Bloques.Bloque;
+import game.Objeto.Bloques.ItemBloque;
+import game.Objeto.Items.Item;
+import static game.Objeto.Objeto.Item;
 import game.Objeto.Objeto_Juego;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
@@ -29,12 +32,25 @@ public class ObjetoManager {
     
     public void mostrar(Graphics2D g2){
         for(Objeto_Juego objeto: objetos){
-            objeto.mostrar(g2);
+            if (objeto instanceof Item) {
+                objeto.mostrar(g2);
+            }
         }
+        
+        for(Objeto_Juego objeto: objetos){
+            if (!(objeto instanceof Item)) {
+                objeto.mostrar(g2);
+            }
+        }
+
+        
     }
+
     
     public void agregarObj(Objeto_Juego obj){
         objetos.add(obj);
+        
+        if(obj instanceof ItemBloque itemBloque) objetos.add(itemBloque.getItem());
     }
     
     public void eliminarObj(Objeto_Juego obj){

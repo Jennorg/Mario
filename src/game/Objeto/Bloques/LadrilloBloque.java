@@ -1,26 +1,20 @@
-package game.Objeto;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package game.Objeto.Bloques;
 
-import game.Graficos.Textura;
-import game.manager.GamePanel;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class Bloque extends Objeto_Juego{
+public class LadrilloBloque extends Bloque{
     
-    private Textura textura;
-
-    private int index;
-    private BufferedImage[] sprite;
-    private boolean golpeado;
-    private Escombro escombro;
+    Escombro escombro;
     
-    public Bloque(float X, float Y, float ancho, float alto, int index, int escala, Textura textura) {
-        super(X, Y, Objeto.Bloque, ancho, alto, escala);
-        this.textura = textura;
-        this.index = index;
-        sprite = textura.getCasilla1();
+    public LadrilloBloque(int x, int y, int ancho, int alto, int index, int escala, BufferedImage[] sprite, BufferedImage[] spriteEscombro){
+        super(x, y, ancho, alto, index, escala, sprite);
+        escombro = new Escombro(getX(), getY(), getAncho(), getAlto(), getEscala(), spriteEscombro);
     }
 
     @Override
@@ -46,10 +40,5 @@ public class Bloque extends Objeto_Juego{
     @Override
     public Rectangle getBorde() {
         return new Rectangle((int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
-    }
-    
-    public void golpea(){
-        golpeado = true;
-        escombro = new Escombro(getX(), getY(), getAncho(), getAlto(), getEscala(), textura);
     }
 }

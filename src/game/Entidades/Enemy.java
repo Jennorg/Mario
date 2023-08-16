@@ -2,7 +2,7 @@ package game.Entidades;
 
 import game.Graficos.Animacion;
 import game.Graficos.Textura;
-import game.Objeto.Bloque;
+import game.Objeto.Bloques.Bloque;
 import game.Objeto.Objeto;
 import game.Objeto.Objeto_Juego;
 import game.manager.ObjetoManager;
@@ -12,20 +12,18 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-public class Goomba extends Objeto_Juego {
-
-    private Textura textura;
+public class Enemy extends Objeto_Juego {
 
     private BufferedImage[] sprite;
     private Animacion animacion;
     private ObjetoManager objManager;
     
     private boolean pisado = false;
+    private boolean haciaDelante = true;
     
-    public Goomba(float X, float Y, Objeto ID, float ancho, float alto, int scale, Textura textura, ObjetoManager objManager) {
+    public Enemy(float X, float Y, Objeto ID, float ancho, float alto, int scale, BufferedImage[] sprite, ObjetoManager objManager) {
         super(X, Y, ID, ancho, alto, scale);
-        this.textura = textura;
-        sprite = textura.getTortuga1();
+        this.sprite = sprite;
         animacion = new Animacion(5,sprite[0],sprite[1]);
         this.objManager = objManager;
         setVelocidadX(-1);
@@ -44,10 +42,15 @@ public class Goomba extends Objeto_Juego {
 
     @Override
     public void mostrar(Graphics2D g) {
-        if(!pisado){
-            animacion.dibujarSprite(g, (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
+        if(!pisado){            
+            if(haciaDelante){
+                animacion.dibujarSprite(g, (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto());
+            } else {
+                animacion.dibujarSprite(g, (int) (getX() + getAncho()), (int) getY(), (int) -getAncho(), (int) getAlto());
+            }
+            
         } else {
-            g.drawImage(sprite[2], (int) getX(), (int) getY(), (int) getAncho(), (int) getAlto(), null);
+            g.drawImage(sprite[2], (int) (getX() + getAncho()), (int) getY(), (int) -getAncho(), (int) getAlto(), null);
         }
         
         //mostrarBordes(g);
@@ -59,9 +62,9 @@ public class Goomba extends Objeto_Juego {
     }
     
     public Rectangle getBordeTop(){
-        return new Rectangle((int) (getX() + (getAncho()/2) - (getAncho()/4)),
+        return new Rectangle((int) (getX()),
                             (int) (getY() - 5),
-                            (int) (getAncho()/2),
+                            (int) (getAncho()),
                             (int) (getAlto()/2));               
     }
     public Rectangle getBordeBot(){
@@ -72,15 +75,15 @@ public class Goomba extends Objeto_Juego {
     }
     
     public Rectangle getBordeDerecha(){
-        return new Rectangle((int) (getX() + getAncho()/2),
-                            (int) (getY() + 10),
+        return new Rectangle((int) (getX() + getAncho() - getAncho()/4),
+                            (int) (getY() + 5),
                             (int) getAncho()/4 + 5,
                             (int) (getAlto()/2)); 
     }
     
     public Rectangle getBordeIzquierda(){
-        return new Rectangle((int) (getX() + 5),
-                            (int) (getY() + 10),
+        return new Rectangle((int) (getX() - 5),
+                            (int) (getY() + 5),
                             (int) getAncho()/4 + 5,
                             (int) (getAlto()/2));
     }
@@ -118,12 +121,14 @@ public class Goomba extends Objeto_Juego {
 
                 if (getBordeIzquierda().intersects(temporal.getBorde())) {
                     // Cambiar la dirección del Goomba cuando choca con algo en la parte izquierda
-                    setVelocidadX(-Math.abs(getVelocidadX())); // Valor absoluto para asegurarse de que la velocidad sea positiva
+                    setVelocidadX(Math.abs(getVelocidadX())); // Valor absoluto para asegurarse de que la velocidad sea positiva
+                    haciaDelante = false;
                 }
 
                 if (getBordeDerecha().intersects(temporal.getBorde())) {
                     // Cambiar la dirección del Goomba cuando choca con algo en la parte derecha
-                    setVelocidadX(Math.abs(getVelocidadX())); // Valor absoluto para asegurarse de que la velocidad sea negativa
+                    setVelocidadX(-Math.abs(getVelocidadX())); // Valor absoluto para asegurarse de que la velocidad sea negativa
+                    haciaDelante = true;
                 }
             }
 

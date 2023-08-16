@@ -44,5 +44,11 @@ public class Animacion {
     public void dibujarSprite(Graphics2D g2, int x, int y, int ancho, int alto){
         g2.drawImage(spriteActual, x, y, ancho, alto, null);
     }
+
+    public int getContador() {
+        return contador;
+    }
+    
+    
 }
 

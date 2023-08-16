@@ -3,7 +3,7 @@ package game.manager;
 import game.Entidades.Player;
 import game.Graficos.Camara;
 import game.Graficos.Textura;
-import game.Objeto.Bloque;
+import game.Objeto.Bloques.Bloque;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -68,8 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
         luigi = objetoManager.getPlayer(2);
 
         objetoManager.enlazar();
-        reproductor.openFile("background.wav","src/res/audios/background.wav");
-        reproductor.play("background.wav");
+//        reproductor.openFile("background.wav","src/res/audios/background.wav");
+//        reproductor.play("background.wav");
     }
     
     public void startGameThread(){

@@ -30,7 +30,7 @@ public class SuperMario {
         window.setResizable(false);
         window.setTitle("Super Mairo!");
         
-        GamePanel game = new GamePanel(true);
+        GamePanel game = new GamePanel(false);
         window.add(game);
         window.pack();
         

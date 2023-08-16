@@ -2,16 +2,15 @@ package game.Entidades;
 
 import game.Graficos.Animacion;
 import game.Graficos.Textura;
-import game.Objeto.Bloque;
-import game.Objeto.Estrella;
+import game.Objeto.Bloques.Bloque;
+import game.Objeto.Bloques.ItemBloque;
+import game.Objeto.Bloques.LadrilloBloque;
+import game.Objeto.Items.Item;
 import game.Objeto.Objeto;
-import static game.Objeto.Objeto.Bloque;
-import static game.Objeto.Objeto.Tubo;
+import static game.Objeto.Objeto.Item;
 import game.Objeto.Objeto_Juego;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import game.manager.GamePanel;
 import game.manager.KeyManager;
 import game.manager.ObjetoManager;
@@ -43,8 +42,8 @@ public class Player extends Objeto_Juego {
     Animacion caminaEnGrande, caminaEnPeque, actualAnimacion;
     EstadoPlayer estado;
     
-    LinkedList<Bloque> bloquesEliminados;
-    LinkedList<Goomba> goombasEliminados;
+    LinkedList<LadrilloBloque> bloquesEliminados;
+    LinkedList<Enemy> enemigosEliminados;
     LinkedList<Objeto_Juego> items;
     
     public Player(KeyManager controlManager, ObjetoManager objetoManager, float x, float y,int escala, Textura textura, int i, Reproductor reproductor){      
@@ -58,8 +57,8 @@ public class Player extends Objeto_Juego {
         this.reproductor = reproductor;
         objManager = objetoManager;
         
-        bloquesEliminados = new LinkedList<Bloque>();
-        goombasEliminados = new LinkedList<Goomba>();
+        bloquesEliminados = new LinkedList<LadrilloBloque>();
+        enemigosEliminados = new LinkedList<Enemy>();
         items = new LinkedList<Objeto_Juego>();
         
         if(i == 1){
@@ -82,16 +81,16 @@ public class Player extends Objeto_Juego {
     public LinkedList<Objeto_Juego> getYResetLinkedListBloqueEliminado(){
         LinkedList<Objeto_Juego> lista = new LinkedList<Objeto_Juego>();
         
-        for(Goomba goomba: goombasEliminados){
+        for(Enemy enemigo: enemigosEliminados){
 
-            lista.add(goomba);
+            lista.add(enemigo);
         }
         
         for(Objeto_Juego obj: items){
             lista.add(obj);
         }
         
-        for(Bloque bloqueEliminado: bloquesEliminados){
+        for(LadrilloBloque bloqueEliminado: bloquesEliminados){
             if(!bloqueEliminado.tocaDesaparecer()) continue;
             lista.add(bloqueEliminado);
         }
@@ -199,32 +198,36 @@ public class Player extends Objeto_Juego {
 
     
     public void colision(){
+        int count = 0;
         for(int i = 0; i < objManager.getLista().size(); i++){
             Objeto_Juego temporal = objManager.getLista().get(i);
             if(temporal == this) continue;
-            if(temporal.getId() == Objeto.Bloque && getBordeTop().intersects(temporal.getBorde())){                                
+            if(temporal.getId() == Objeto.Bloque && getBordeTop().intersects(temporal.getBorde())){            
+                ((Bloque) temporal).golpea();
+                if(temporal instanceof LadrilloBloque ladrilloBloque && count == 0){
+                    bloquesEliminados.add(ladrilloBloque);
+                    reproductor.openFile("Block Break.wav","src/res/audios/Block Break.wav");
+                    reproductor.play("Block Break.wav");
+                } else if(temporal instanceof ItemBloque itemBloque && !itemBloque.getItem().isFuera()) {                            
+                    reproductor.openFile("Coin.wav","src/res/audios/Coin.wav");
+                    reproductor.play("Coin.wav");                    
+                }
+                
                 setY(temporal.getY() + temporal.getAlto());
                 setVelocidadY(0);
-                ((Bloque) temporal).golpea();
-                bloquesEliminados.add((Bloque) temporal);
-                reproductor.openFile("Block Break.wav","src/res/audios/Block Break.wav");
-                reproductor.play("Block Break.wav");
                 
                 
-            }   else if (temporal.getId() == Objeto.Enemigo && temporal instanceof Goomba goomba) {
-                if (getBordeBot().intersects(temporal.getBorde()) && goomba.esPisado()) {
-                    goombasEliminados.add(goomba);
+            }   else if (temporal.getId() == Objeto.Enemigo && temporal instanceof Enemy enemigo) {
+                if (getBordeBot().intersects(temporal.getBorde()) && enemigo.esPisado()) {
+                    enemigosEliminados.add(enemigo);
                     setVelocidadY(-5); // Impulso hacia arriba cuando el jugador salta sobre el Goomba
                 } else if (getBorde().intersects(temporal.getBorde())) {
                     n_Golpes--; // Reduce el número de golpes del jugador cuando choca con un Goomba
                 }
                 
-            } else if(temporal.getId() == Objeto.Item) {
-                
-                if(temporal instanceof Estrella && getBorde().intersects(temporal.getBorde())){
+            } else if(temporal.getId() == Objeto.Item && getBorde().intersects(temporal.getBorde()))                {                
                     items.add(temporal);
-                    haGanado = true;
-                }
+                
                 
             } else if(temporal.getId() == Objeto.Jugador){
                 continue;
