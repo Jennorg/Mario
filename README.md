@@ -25,7 +25,7 @@ JavaFX no está incluido por defecto en las versiones modernas de Java. Necesita
 1. Descarga JavaFX SDK desde [https://openjfx.io/](https://openjfx.io/)
 2. Extrae el SDK en una carpeta (ej: `/home/usuario/opt/javafx-sdk-21.0.8/`)
 
-```
+````
 
 ### 2. Configurar Variables de Entorno
 
@@ -35,13 +35,18 @@ Asegúrate de que JavaFX esté en tu `PATH` o configura las variables de entorno
 # Linux/macOS
 export PATH_TO_FX="/ruta/a/javafx-sdk-21.0.8/lib"
 export JAVA_OPTS="--module-path $PATH_TO_FX --add-modules javafx.controls,javafx.fxml,javafx.media"
-```
+````
 
 ### 3. Compilar el Proyecto
 
 ```bash
-# Compilar
-javac -cp ".:$PATH_TO_FX/*" -d build/classes src/game/*.java src/game/*/*.java
+# Compilar (compila todo el proyecto incluyendo subdirectorios)
+mkdir -p build/classes
+find src -name "*.java" > sources.txt
+javac --module-path "$PATH_TO_FX" \
+      --add-modules javafx.controls,javafx.media \
+      -cp ".:$PATH_TO_FX/*" \
+      -d build/classes @sources.txt
 
 # Crear JAR
 jar cfm dist/superMario.jar manifest.mf -C build/classes .
@@ -52,8 +57,9 @@ jar cfm dist/superMario.jar manifest.mf -C build/classes .
 ### Método 1: Desde línea de comandos
 
 ```bash
-# Con JavaFX en el classpath
-java --module-path /ruta/a/javafx-sdk-21.0.8/lib \
+# Ejecutar (clases compiladas)
+# Asegúrate de exportar PATH_TO_FX a la ruta correcta al SDK (ej: /home/jenorg/opt/javafx-sdk-21.0.8/lib)
+java --module-path "$PATH_TO_FX" \
      --add-modules javafx.controls,javafx.fxml,javafx.media \
      -cp "build/classes" game.SuperMario
 ```
@@ -61,7 +67,7 @@ java --module-path /ruta/a/javafx-sdk-21.0.8/lib \
 ### Método 2: Usando el JAR
 
 ```bash
-java --module-path /ruta/a/javafx-sdk-21.0.8/lib \
+java --module-path "$PATH_TO_FX" \
      --add-modules javafx.controls,javafx.fxml,javafx.media \
      -jar dist/superMario.jar
 ```
@@ -81,6 +87,31 @@ El proyecto incluye configuración para VS Code en `.vscode/launch.json`:
   "vmArgs": "--module-path /home/jenorg/opt/javafx-sdk-21.0.8/lib --add-modules javafx.controls,javafx.fxml,javafx.media"
 }
 ```
+
+### Scripts de ayuda (recomendado)
+
+He añadido dos scripts en la raíz del proyecto que reproducen exactamente los comandos que te funcionaron:
+
+- `build.sh`: compila todo el proyecto y genera `dist/superMario.jar`.
+- `run.sh`: ejecuta la clase principal con clases compiladas o el JAR (`./run.sh` o `./run.sh jar`).
+
+Úsalos así:
+
+```bash
+# Exporta la ruta al SDK de JavaFX (ajusta si es necesario)
+export PATH_TO_FX="/home/jenorg/opt/javafx-sdk-21.0.8/lib"
+
+# Compilar
+./build.sh
+
+# Ejecutar usando clases compiladas
+./run.sh
+
+# Ejecutar usando JAR
+./run.sh jar
+```
+
+> Consejo: si ves "Module javafx.controls not found" verifica que `PATH_TO_FX` apunte a la carpeta `lib` del JavaFX SDK y que contenga los JARs de JavaFX.
 
 ## 🎵 Funcionalidad de Audio con JavaFX
 
